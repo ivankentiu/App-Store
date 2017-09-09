@@ -25,7 +25,7 @@ class AppCategory: NSObject {
         // logic
         let frozenApp = App()
         frozenApp.name = "Cool Build It: Monster"
-        frozenApp.imageName = "frozen"
+        frozenApp.imageName = "monster"
         frozenApp.category = "Entertainment"
         frozenApp.price = NSNumber(value: 3.99)
         apps.append(frozenApp)
@@ -43,6 +43,7 @@ class AppCategory: NSObject {
         // logic
         let telepaintApp = App()
         telepaintApp.name = "telepaint"
+        telepaintApp.imageName = "telepaint"
         telepaintApp.category = "Games"
         telepaintApp.price = NSNumber(value: 2.99)
         bestNewGamesApps.append(telepaintApp)

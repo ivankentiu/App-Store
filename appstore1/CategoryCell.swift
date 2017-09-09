@@ -101,11 +101,19 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     
     // same method as the before
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        //dynamic number of items
+        if let count = appCategory?.apps?.count {
+            return count
+        }
+        return 0
+        
     }
    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! AppCell
+        // downcast as Appcell + use "app" property
+        cell.app = appCategory?.apps?[indexPath.item]
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -123,6 +131,32 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
 
 class AppCell: UICollectionViewCell {
     
+    // Specify What goes inside of cell (same logic as above)
+    var app: App? {
+        didSet {
+            if let name = app?.name {
+                nameLabel.text = name
+            }
+            
+            categoryLabel.text = app?.category
+            
+            //unwrap price to set a dollar price
+            if let price = app?.price?.stringValue {
+                priceLabel.text = "$\(price)"
+            } else {
+                priceLabel.text = ""
+            }
+            
+            //unwrap image
+            if let imageName = app?.imageName {
+                imageView.image = UIImage(named: imageName)
+            }
+            
+            
+            
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -134,7 +168,6 @@ class AppCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named : "monster")
         iv.contentMode = .scaleAspectFill // maintains the aspect ratio of the image
         iv.layer.cornerRadius = 16
         iv.layer.masksToBounds = true // turned on by default?
