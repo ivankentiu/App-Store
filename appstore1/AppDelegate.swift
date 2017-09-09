@@ -11,7 +11,7 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    //variable for the window
+    // variable for the window
     var window: UIWindow?
 
 
@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // from the class in FeaturedAppsController.swift, pass in a particular layout to use
         let featuredAppsController = FeaturedAppsController(collectionViewLayout : layout)
         
-        //has tab bar at the very top (instantiate particular navigation controller)
+        // has tab bar at the very top (instantiate particular navigation controller)
         window?.rootViewController = UINavigationController(rootViewController: featuredAppsController)
         
         return true

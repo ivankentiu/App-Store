@@ -10,6 +10,20 @@ import UIKit
 
 class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    // add property to the cell to be used on FeaturedAppsController
+    var appCategory: AppCategory? {
+        
+        // execute logic
+        didSet {
+            
+            if let name = appCategory?.name {
+                nameLabel.text = name
+                print(nameLabel.text)
+            }
+            
+        }
+    }
+    
     private let cellId = "appCellId"
     
     override init(frame: CGRect) {
@@ -21,7 +35,7 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
         fatalError("init(coder:) has not been implemented")
     }
     
-    //label of the categories
+    // label of the categories
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Best New Apps"
@@ -31,18 +45,18 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     }()
 
     
-    //create collection view
+    // create collection view
     let appsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         
-        //default scrolling is vertical so change to horizontal
+        // default scrolling is vertical so change to horizontal
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         collectionView.backgroundColor = UIColor.clear
         
-        //before all the constraints will work turn this off
+        // before all the constraints will work turn this off
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
@@ -60,32 +74,32 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     func setupViews() {
         backgroundColor = UIColor.clear
         
-        //add collection view unto the sub view hierarchy of this cell
+        // add collection view unto the sub view hierarchy of this cell
         addSubview(appsCollectionView)
         addSubview(dividerLineView)
         addSubview(nameLabel)
         
-        //add the protocols above
+        // add the protocols above
         appsCollectionView.dataSource = self
         appsCollectionView.delegate = self
         
-        //register AppCell to collection View
+        // register AppCell to collection View
         appsCollectionView.register(AppCell.self, forCellWithReuseIdentifier: cellId)
         
-        //use layout contraints to plop view into my cell
-        //expand horizontally from the left to the right edge v-0 being our appsCollectionView (-8- padding)
+        // use layout contraints to plop view into my cell
+        //  expand horizontally from the left to the right edge v-0 being our appsCollectionView (-8- padding)
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
         
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-14-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": dividerLineView]))
         
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": appsCollectionView]))
         
-        //and the same for Vertical axis top to bottom
+        // and the same for Vertical axis top to bottom
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[nameLabel(30)][v0][v1(0.5)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["nameLabel": nameLabel, "v0": appsCollectionView, "v1": dividerLineView]))
         
     }
     
-    //same method as the before
+    // same method as the before
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
@@ -95,12 +109,12 @@ class CategoryCell: UICollectionViewCell, UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //bash on height of collection view
+        // bash on height of collection view
         return CGSize(width: 100, height: frame.height - 32) //because of [nameLabel(30)][v1(0.5)], image cut off so -32
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        //push left right edge by couple of pixels (margin)
+        // push left right edge by couple of pixels (margin)
         return UIEdgeInsetsMake(0, 14, 0, 14)
     }
   
@@ -121,7 +135,7 @@ class AppCell: UICollectionViewCell {
     let imageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named : "monster")
-        iv.contentMode = .scaleAspectFill //maintains the aspect ratio of the image
+        iv.contentMode = .scaleAspectFill // maintains the aspect ratio of the image
         iv.layer.cornerRadius = 16
         iv.layer.masksToBounds = true // turned on by default?
         return iv
